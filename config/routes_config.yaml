@@ -1,0 +1,146 @@
+# PayRoute AI - Payment Routes & Smart Routing Configuration
+
+routes:
+  # HDFC Bank Routes
+  - route_id: "ROUTE_HDFC_RAZORPAY"
+    route_name: "HDFC via Razorpay Simulated"
+    bank: "HDFC"
+    gateway: "RAZORPAY_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.50
+    expected_latency_ms: 130
+    baseline_success_rate: 0.95
+    active: true
+
+  - route_id: "ROUTE_HDFC_CASHFREE"
+    route_name: "HDFC via Cashfree Simulated"
+    bank: "HDFC"
+    gateway: "CASHFREE_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.35
+    expected_latency_ms: 155
+    baseline_success_rate: 0.94
+    active: true
+
+  - route_id: "ROUTE_HDFC_PAYU"
+    route_name: "HDFC via PayU Simulated"
+    bank: "HDFC"
+    gateway: "PAYU_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.40
+    expected_latency_ms: 165
+    baseline_success_rate: 0.93
+    active: true
+
+  # SBI Bank Routes
+  - route_id: "ROUTE_SBI_RAZORPAY"
+    route_name: "SBI via Razorpay Simulated"
+    bank: "SBI"
+    gateway: "RAZORPAY_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.50
+    expected_latency_ms: 220
+    baseline_success_rate: 0.91
+    active: true
+
+  - route_id: "ROUTE_SBI_CASHFREE"
+    route_name: "SBI via Cashfree Simulated"
+    bank: "SBI"
+    gateway: "CASHFREE_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.38
+    expected_latency_ms: 240
+    baseline_success_rate: 0.89
+    active: true
+
+  - route_id: "ROUTE_SBI_DIRECT"
+    route_name: "SBI Direct Bank Integration"
+    bank: "SBI"
+    gateway: "DIRECT_BANK"
+    supported_payment_methods: ["NET_BANKING", "UPI"]
+    base_fee_pct: 1.10
+    expected_latency_ms: 300
+    baseline_success_rate: 0.87
+    active: true
+
+  # ICICI Bank Routes
+  - route_id: "ROUTE_ICICI_RAZORPAY"
+    route_name: "ICICI via Razorpay Simulated"
+    bank: "ICICI"
+    gateway: "RAZORPAY_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.50
+    expected_latency_ms: 145
+    baseline_success_rate: 0.94
+    active: true
+
+  - route_id: "ROUTE_ICICI_PAYU"
+    route_name: "ICICI via PayU Simulated"
+    bank: "ICICI"
+    gateway: "PAYU_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.42
+    expected_latency_ms: 160
+    baseline_success_rate: 0.93
+    active: true
+
+  # AXIS Bank Routes
+  - route_id: "ROUTE_AXIS_RAZORPAY"
+    route_name: "AXIS via Razorpay Simulated"
+    bank: "AXIS"
+    gateway: "RAZORPAY_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.50
+    expected_latency_ms: 170
+    baseline_success_rate: 0.92
+    active: true
+
+  - route_id: "ROUTE_AXIS_CASHFREE"
+    route_name: "AXIS via Cashfree Simulated"
+    bank: "AXIS"
+    gateway: "CASHFREE_SIM"
+    supported_payment_methods: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+    base_fee_pct: 1.38
+    expected_latency_ms: 185
+    baseline_success_rate: 0.91
+    active: true
+
+# Multi-Objective Scoring Weights (Configurable)
+routing:
+  weights:
+    success: 0.60
+    latency: 0.20
+    cost: 0.10
+    health: 0.10
+  exploration_probability: 0.05
+
+# Dynamic Circuit Breaker Configuration
+circuit_breaker:
+  failure_rate_threshold: 0.40       # Trip when rolling failure rate exceeds 40%
+  minimum_transactions: 20           # Require at least 20 transactions before tripping
+  recovery_timeout_seconds: 30       # Time in seconds before transitioning OPEN -> HALF_OPEN
+  half_open_test_probability: 0.05   # Fraction of traffic sent to HALF_OPEN routes for health probing
+
+# Route Health Rolling Statistics
+health:
+  rolling_window_size: 100           # Bounded deque size for tracking recent outcomes
+
+# Traffic & Load Simulation Configuration
+traffic:
+  load_thresholds:
+    low: 0.35                        # 0.00 - 0.35: LOW traffic
+    moderate: 0.70                   # 0.35 - 0.70: MODERATE traffic
+    high: 0.85                       # 0.70 - 0.85: HIGH traffic
+    critical: 1.00                   # 0.85 - 1.00: CRITICAL overload
+  latency_multiplier: 1.50           # Latency surge factor: base * (1 + multiplier * load)
+  failure_rate_load_penalty: 0.15    # Added failure probability at peak load
+
+# Intelligent Decision Policy Configuration
+decision_policy:
+  switch_success_threshold_delta: 0.05    # Switch route if alternate has >= 5% higher predicted success
+  high_traffic_load_threshold: 0.75       # Route considered high traffic if load >= 0.75
+  wait_retry_load_threshold: 0.88         # Suggest WAIT_AND_RETRY if all routes exceed 88% load
+  wait_retry_duration_seconds: 15         # Simulated retry countdown duration
+  alternative_method_uplift_threshold: 0.12 # Suggest alternative method if >= 12% higher success
+
+

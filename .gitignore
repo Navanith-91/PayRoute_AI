@@ -1,0 +1,33 @@
+# Python bytecode & environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Checkpoints
+.ipynb_checkpoints
+
+# Environment Variables & IDE configs
+.env
+.vscode/
+.idea/
+*.swp
+*.log
+
+# Databases
+database/*.db
+database/*.sqlite
+!database/schema.sql

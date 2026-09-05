@@ -1,0 +1,46 @@
+{
+  "HistGradientBoosting": {
+    "roc_auc": 0.6948,
+    "pr_auc": 0.2898,
+    "brier_score": 0.1102,
+    "log_loss": 0.3704,
+    "precision": 0.2855,
+    "recall": 0.4479,
+    "f1": 0.3487,
+    "train_time_ms": 2129.3,
+    "inference_latency_per_txn_us": 1.48
+  },
+  "GradientBoosting": {
+    "roc_auc": 0.6875,
+    "pr_auc": 0.2923,
+    "brier_score": 0.1106,
+    "log_loss": 0.3825,
+    "precision": 0.2792,
+    "recall": 0.4455,
+    "f1": 0.3433,
+    "train_time_ms": 7650.6,
+    "inference_latency_per_txn_us": 1.94
+  },
+  "RandomForest": {
+    "roc_auc": 0.6974,
+    "pr_auc": 0.2981,
+    "brier_score": 0.1096,
+    "log_loss": 0.3899,
+    "precision": 0.3018,
+    "recall": 0.4092,
+    "f1": 0.3474,
+    "train_time_ms": 394.4,
+    "inference_latency_per_txn_us": 16.45
+  },
+  "LogisticRegression": {
+    "roc_auc": 0.6986,
+    "pr_auc": 0.3048,
+    "brier_score": 0.1095,
+    "log_loss": 0.3907,
+    "precision": 0.323,
+    "recall": 0.3801,
+    "f1": 0.3493,
+    "train_time_ms": 68.0,
+    "inference_latency_per_txn_us": 0.21
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "feature_names": [
+    "cat__payment_method_CREDIT_CARD",
+    "cat__payment_method_DEBIT_CARD",
+    "cat__payment_method_NET_BANKING",
+    "cat__payment_method_UPI",
+    "cat__bank_AXIS",
+    "cat__bank_HDFC",
+    "cat__bank_ICICI",
+    "cat__bank_SBI",
+    "cat__merchant_category_ECOMMERCE",
+    "cat__merchant_category_EDUCATION",
+    "cat__merchant_category_ENTERTAINMENT",
+    "cat__merchant_category_FOOD",
+    "cat__merchant_category_HEALTHCARE",
+    "cat__merchant_category_TRAVEL",
+    "cat__merchant_category_UTILITIES",
+    "cat__device_type_DESKTOP",
+    "cat__device_type_MOBILE",
+    "cat__device_type_TABLET",
+    "cat__network_type_2G",
+    "cat__network_type_3G",
+    "cat__network_type_4G",
+    "cat__network_type_5G",
+    "cat__network_type_WIFI",
+    "temporal__hour_sin",
+    "temporal__hour_cos",
+    "temporal__day_sin",
+    "temporal__day_cos",
+    "customer__historical_failure_rate",
+    "customer__retry_risk",
+    "customer__velocity_log",
+    "customer__account_maturity_years",
+    "infra__total_latency_ms",
+    "infra__latency_ratio",
+    "infra__combined_route_health",
+    "infra__health_deficit",
+    "amount__amount_log",
+    "amount__high_ticket_new_device"
+  ],
+  "n_features": 37,
+  "target_name": "payment_status",
+  "optimal_threshold": 0.2,
+  "risk_tiers": {
+    "LOW": {
+      "min": 0.0,
+      "max": 0.2
+    },
+    "MEDIUM": {
+      "min": 0.2,
+      "max": 0.2
+    },
+    "HIGH": {
+      "min": 0.2,
+      "max": 1.0
+    }
+  },
+  "calibration_method": "isotonic",
+  "reason_classes": [
+    "BANK_DOWNTIME",
+    "GATEWAY_TIMEOUT",
+    "INSUFFICIENT_FUNDS",
+    "NETWORK_DROP",
+    "USER_AUTHENTICATION_ERROR"
+  ]
+}

@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: payroute-ai
+    env: python
+    buildCommand: pip install -r requirements.txt && python database/init_db.py
+    startCommand: bash start.sh
+    plan: free
+    envVars:
+      - key: PAYROUTE_API_URL
+        value: http://localhost:8000
+      - key: PYTHON_VERSION
+        value: 3.10.12

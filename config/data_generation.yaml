@@ -1,0 +1,103 @@
+# Synthetic Data Generation Configuration
+dataset:
+  default_records: 100000
+  currency: "INR"
+
+banks:
+  options: ["HDFC", "SBI", "ICICI", "AXIS"]
+  weights: [0.35, 0.28, 0.22, 0.15]
+  baseline_success_rates:
+    HDFC: 0.94
+    ICICI: 0.93
+    AXIS: 0.91
+    SBI: 0.88
+  baseline_latencies_ms:
+    HDFC: 180
+    ICICI: 195
+    AXIS: 220
+    SBI: 310
+  # Scheduled maintenance hours (UTC+5:30 typical low-traffic maintenance window)
+  maintenance_windows:
+    HDFC:
+      start_hour: 2
+      end_hour: 4
+      degradation_prob: 0.25
+    SBI:
+      start_hour: 1
+      end_hour: 4
+      degradation_prob: 0.35
+    ICICI:
+      start_hour: 3
+      end_hour: 5
+      degradation_prob: 0.20
+    AXIS:
+      start_hour: 2
+      end_hour: 4
+      degradation_prob: 0.25
+
+gateways:
+  options: ["RAZORPAY_SIM", "CASHFREE_SIM", "PAYU_SIM", "DIRECT_BANK"]
+  weights: [0.45, 0.25, 0.20, 0.10]
+  baseline_success_rates:
+    RAZORPAY_SIM: 0.96
+    CASHFREE_SIM: 0.94
+    PAYU_SIM: 0.93
+    DIRECT_BANK: 0.89
+  baseline_latencies_ms:
+    RAZORPAY_SIM: 110
+    CASHFREE_SIM: 135
+    PAYU_SIM: 150
+    DIRECT_BANK: 220
+
+payment_methods:
+  options: ["UPI", "CREDIT_CARD", "DEBIT_CARD", "NET_BANKING"]
+  weights: [0.60, 0.18, 0.14, 0.08]
+  risk_factors:
+    UPI: 0.0
+    CREDIT_CARD: 0.20
+    DEBIT_CARD: 0.15
+    NET_BANKING: 0.35
+
+merchant_categories:
+  options: ["ECOMMERCE", "FOOD", "TRAVEL", "UTILITIES", "ENTERTAINMENT", "HEALTHCARE", "EDUCATION"]
+  weights: [0.30, 0.25, 0.12, 0.12, 0.10, 0.06, 0.05]
+  amount_params: # log-normal mu and sigma approximations
+    ECOMMERCE: { mu: 7.2, sigma: 0.95 }     # Median ~ ₹1,340, Mean ~ ₹1,800
+    FOOD: { mu: 5.8, sigma: 0.65 }          # Median ~ ₹330, Mean ~ ₹420
+    TRAVEL: { mu: 8.3, sigma: 1.10 }        # Median ~ ₹4,000, Mean ~ ₹5,200
+    UTILITIES: { mu: 6.6, sigma: 0.70 }     # Median ~ ₹730, Mean ~ ₹950
+    ENTERTAINMENT: { mu: 6.2, sigma: 0.75 } # Median ~ ₹490, Mean ~ ₹650
+    HEALTHCARE: { mu: 7.6, sigma: 1.05 }    # Median ~ ₹2,000, Mean ~ ₹2,800
+    EDUCATION: { mu: 9.2, sigma: 1.15 }     # Median ~ ₹9,900, Mean ~ ₹14,000
+
+device_types:
+  options: ["MOBILE", "DESKTOP", "TABLET"]
+  weights: [0.78, 0.18, 0.04]
+
+network_types:
+  options: ["5G", "4G", "WIFI", "3G", "2G"]
+  weights: [0.35, 0.45, 0.14, 0.05, 0.01]
+  latency_adders_ms:
+    5G: 20
+    4G: 45
+    WIFI: 35
+    3G: 220
+    2G: 650
+  timeout_risk_factors:
+    5G: 0.0
+    4G: 0.05
+    WIFI: 0.02
+    3G: 0.45
+    2G: 1.10
+
+failure_reasons:
+  - "BANK_DOWNTIME"
+  - "GATEWAY_TIMEOUT"
+  - "USER_AUTHENTICATION_ERROR"
+  - "INSUFFICIENT_FUNDS"
+  - "NETWORK_DROP"
+
+target_failure_rate:
+  min: 0.12
+  max: 0.18
+  expected: 0.15

@@ -1,0 +1,16 @@
+project_name: "PayRoute AI"
+version: "0.1.0"
+environment: "development"
+random_seed: 42
+
+paths:
+  raw_data_dir: "data/raw"
+  raw_data_file: "data/raw/payments_synthetic.csv"
+  processed_data_dir: "data/processed"
+  database_file: "database/payroute.db"
+  schema_file: "database/schema.sql"
+  models_dir: "models"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"

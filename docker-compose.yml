@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # PayRoute AI All-in-One Service (FastAPI Backend + Streamlit Dashboard)
+  payroute-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: payroute-ai
+    ports:
+      - "8000:8000"  # FastAPI Backend & OpenAPI Docs
+      - "8501:8501"  # Streamlit Customer Shield Dashboard
+    environment:
+      - PAYROUTE_API_URL=http://localhost:8000
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - payroute_db:/app/database
+      - payroute_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  payroute_db:
+  payroute_data:
